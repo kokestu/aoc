@@ -7,7 +7,7 @@ main = do
   putStrLn "Part one: "
   print $ sum $ zipWith (\a b -> abs $ a-b) as bs
   -- Part two.
-  let hm = countOrd bs
+  let hm = countEntries bs
   putStrLn "Part two: "
   print $ fst $ foldl f (0,hm) as
   where
@@ -27,13 +27,10 @@ ordIns a bs'@(b:bs)
   | a <= b    = a:bs'
   | otherwise = b : ordIns a bs
 
--- Given an ordered list, produce a count of how many times
+-- Given a list, produce a count of how many times
 -- each number appears.
-countOrd :: Ord a => [a] -> M.Map a Int
-countOrd xs@(x:_) = countOrd' x M.empty xs
+countEntries :: Ord a => [a] -> M.Map a Int
+countEntries xs = countEntries' M.empty xs
   where
-    countOrd' _ hm [] = hm
-    countOrd' cur hm (x:xs)
-      | cur == x  = countOrd' cur (M.update bump cur hm) xs
-      | otherwise = countOrd' x (M.insert x 1 hm) xs
-    bump i = Just $ i + 1
+    countEntries' hm [] = hm
+    countEntries' hm (x:xs) = countEntries' (M.insertWith (+) x 1 hm) xs
