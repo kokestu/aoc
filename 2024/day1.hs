@@ -1,7 +1,7 @@
 import qualified Data.Map.Strict as M
 
 main = do
-  ls <- lines <$> readFile "inputs/day1"
+  ls <- lines <$> readFile "inputs/day1.txt"
   -- Part one.
   let (as, bs) = getOrdLists ([], []) ls
   putStrLn "Part one: "
