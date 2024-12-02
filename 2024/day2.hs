@@ -6,10 +6,12 @@ main = do
   -- Part two.
   putStrLn "Part two:"
   print $ sum . map validateDampBF $ ls
+  -- Checking the mistakes of my optimised solution.
   putStrLn "Check non-BF:"
   print $ sum . map (validateDamp Any) $ ls
   putStrLn "Mistakes:"
-  sequence_ [if validateDampBF l > validateDamp Any l then print l else return () | l <- ls]
+  sequence_ [ if validateDampBF l > validateDamp Any l
+              then print l else return () | l <- ls ]
   where
     getInts :: [String] -> [Int]
     getInts = map read
@@ -19,12 +21,10 @@ data Direction = Any | Inc | Dec
 dir x y = if x < y then Inc else Dec
 
 -- Helper to check the distance and direction.
-check Any x y =
-  (abs $ x - y) >= 1 && (abs $ x - y) <= 3
 check Inc x y =
   (y - x) >= 1 && (y - x) <= 3
-check Dec x y =
-  (x - y) >= 1 && (x - y) <= 3
+check Dec x y = check Inc y x
+check Any x y = check Inc x y || check Dec x y
 
 -- Validate without the dampener.
 validate :: Direction -> [Int] -> Int
@@ -42,7 +42,6 @@ validateDampBF xs = validateDampBF' xs [0..length xs]
     validateDampBF' _ [] = 0
     validateDampBF' xs (i:is) =
       if validate Any (removeN xs i) == 1 then 1 else validateDampBF' xs is
-    removeN :: [a] -> Int -> [a]
     removeN [] _ = []
     removeN (x:xs) i
       | i == 0    = x:xs
