@@ -2,12 +2,12 @@ main = do
   ls <- map (getInts . words) <$> lines <$> readFile "inputs/day2.txt"
   -- Part one.
   putStrLn "Part one:"
-  print $ foldl (\acc l -> acc + validate Any l) 0 ls
+  print $ sum . map (validate Any) $ ls
   -- Part two.
   putStrLn "Part two:"
-  print $ foldl (\acc l -> acc + validateDampBF l) 0 ls
+  print $ sum . map validateDampBF $ ls
   putStrLn "Check non-BF:"
-  print $ foldl (\acc l -> acc + validateDamp Any l) 0 ls
+  print $ sum . map (validateDamp Any) $ ls
   putStrLn "Mistakes:"
   sequence_ [if validateDampBF l > validateDamp Any l then print l else return () | l <- ls]
   where
@@ -48,7 +48,7 @@ validateDampBF xs = validateDampBF' xs [0..length xs]
       | i == 0    = x:xs
       | i == 1    = xs
       | otherwise = x : removeN xs (i-1)
-    
+
 -- Validate with the dampener. This was my non-brute force attempt,
 -- but it needs backtracking. If we go into what seems like a valid
 -- branch, (e.g. dropping the second element because it looks like the
