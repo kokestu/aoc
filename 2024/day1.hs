@@ -13,8 +13,7 @@ main = do
   where
     f (tot, hm) a = (tot + (maybe 0 (\x -> a * x) (hm M.!? a)), hm)
 
--- Get two ordered lists, one for the first column and one for
--- the second.
+-- Get two ordered lists, one for the first column and one for the second.
 getOrdLists :: ([Int], [Int]) -> [String] -> ([Int], [Int])
 getOrdLists res [] = res
 getOrdLists (as, bs) (l:ls) = getOrdLists (ordIns a as, ordIns b bs) ls
@@ -27,10 +26,6 @@ ordIns a bs'@(b:bs)
   | a <= b    = a:bs'
   | otherwise = b : ordIns a bs
 
--- Given a list, produce a count of how many times
--- each number appears.
+-- Given a list, produce a count of how many times each number appears.
 countEntries :: Ord a => [a] -> M.Map a Int
-countEntries xs = countEntries' M.empty xs
-  where
-    countEntries' hm [] = hm
-    countEntries' hm (x:xs) = countEntries' (M.insertWith (+) x 1 hm) xs
+countEntries = foldl (\hm x -> M.insertWith (+) x 1 hm) M.empty
