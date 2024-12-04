@@ -15,8 +15,7 @@ doTask content letter f =
     Right (xlocs, _) -> print $ f xlocs m
     where m = M.fromLists $ lines content
   
-
--- Find locations of Xs to checkXmas.
+-- Find locations of Xs to check.
 type Location = (Int, Int)
 type ParseState = ([Location], Location)
 type Parser = Parsec String ParseState
@@ -85,5 +84,3 @@ checkCrossMAS d m loc =
 
 -- Safe indexing into matrices
 (!?) = flip $ uncurry M.safeGet
-
-
