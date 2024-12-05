@@ -39,8 +39,8 @@ parseLookups = try (newline) <|> do
       addOrInsert x Nothing = Just $ singleton x
       addOrInsert x (Just s) = Just $ insert x s
 
--- For every element of the list, check that it shouldn't come
--- before any of the later ones.
+-- For every element of the list, check that the later ones
+-- shouldn't come before it.
 verify :: Lookup -> [Int] -> Bool
 verify _ [] = True
 verify back (x:xs) =
