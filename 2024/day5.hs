@@ -11,7 +11,7 @@ main = do
     Right (back, rem) -> do
       let lists = map read <$> splitOn "," <$> lines rem
       putStrLn "Part one:"
-      print $ sum $ map listval $ [x | x <- lists, verify back x]
+      print $ sum $ map listval $ filter (verify back) lists
       putStrLn "Part two:"
       let fixed = [sortBy (order back) x | x <- lists, not $ verify back x]
       print $ sum $ map listval fixed
